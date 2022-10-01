@@ -16,7 +16,7 @@ class PegawaiController extends Controller
     public function index() 
     {
         //get posts 
-        $pegawai = Pegawai::paginate(5); 
+        $pegawai = Pegawai::join('departemens','pegawais.id_departemen','=','departemens.id')->paginate(5); 
         
         //render view with posts 
         return view('pegawai.index', compact('pegawai')); 

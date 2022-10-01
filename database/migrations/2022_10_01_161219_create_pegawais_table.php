@@ -17,12 +17,13 @@ return new class extends Migration
                 $table->id();
                 $table->string('nomor_induk_pegawai');
                 $table->string('nama_pegawai');
-                $table->integer('id_departemen');
+                $table->foreignId('id_departemen')->constrained('departemens');
                 $table->string('email');
                 $table->integer('telepon');
                 $table->boolean('gender');
                 $table->date('tanggal_bergabung');
                 $table->boolean('status');
+
                 $table->timestamps();
         });
     }
