@@ -14,17 +14,17 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pegawais', function (Blueprint $table) {
-                $table->id();
-                $table->string('nomor_induk_pegawai');
-                $table->string('nama_pegawai');
-                $table->foreignId('id_departemen')->constrained('departemens');
-                $table->string('email');
-                $table->integer('telepon');
-                $table->boolean('gender');
-                $table->date('tanggal_bergabung');
-                $table->boolean('status');
-
-                $table->timestamps();
+            $table->id();
+            $table->string('nomor_induk_pegawai');
+            $table->string('nama_pegawai');
+            $table->unsignedBigInteger('id_departemen');
+            $table->foreign('id_departemen')->references('id')->on('departemens');
+            $table->string('email');
+            $table->Integer('telepon');
+            $table->boolean('gender');
+            $table->date('tanggal_bergabung');
+            $table->boolean('status');
+            $table->timestamps();
         });
     }
 

@@ -12,6 +12,10 @@ class Pegawai extends Model
      * 
      * @var array
      */
+    public function departemen()
+        {
+            return $this->hasOne(Departemen::class,"id","id_departemen");
+        }
 
     protected $fillable = [
         'nomor_induk_pegawai',
