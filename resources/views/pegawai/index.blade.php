@@ -36,7 +36,7 @@
                                     <tr>
                                         <th class="text-center">Nomor Induk Pegawai</th>
                                         <th class="text-center">Nama Pegawai</th>
-                                        <th class="text-center">Id Departemen</th>
+                                        <th class="text-center">Departemen</th>
                                         <th class="text-center">Email</th>
                                         <th class="text-center">Telepon</th>
                                         <th class="text-center">Gender</th>
@@ -50,7 +50,7 @@
                                     <tr>
                                         <td class="text-center">{{ $item->nomor_induk_pegawai }}</td>
                                         <td class="text-center">{{ $item->nama_pegawai }}</td>
-                                        <td class="text-center">{{ $item->id_departemen}}</td>
+                                        <td class="text-center">{{ $item->departemen->nama_departemen}}</td>
                                         <td class="text-center">{{ $item->email}}</td>
                                         <td class="text-center">{{ $item->telepon}}</td>
                                         <td class="text-center">
