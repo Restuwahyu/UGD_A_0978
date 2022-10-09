@@ -1,28 +1,24 @@
 @extends('dashboard')
+
 @section('content')
 <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
-
             <div class="col-sm-6">
-                <h1 class="m-0">Pegawai</h1>
+                <h1 class="m-0">Departemen</h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="{{ url('pegawai')}}">Pegawai</a>
+                        <a href="#">Departemen</a>
                     </li>
                     <li class="breadcrumb-item active">Index</li>
                 </ol>
-            </div>
-            <!-- /.col -->
-        </div>
-        <!-- /.row -->
-    </div>
-    <!-- /.container-fluid -->
-</div>
-<!-- /.content-header -->
+            </div> <!-- /.col -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container-fluid -->
+</div> <!-- /.content-header -->
 <!-- Main content -->
 <div class="content">
     <div class="container-fluid">
@@ -30,6 +26,8 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
+                        <a href="{{ route('pegawai.create') }}" class="btn btn-md btn-success mb-3">TAMBAH
+                            PEGAWAI</a>
                         <div class="table-responsive p-0">
                             <table class="table table-hover text-nowrap">
                                 <thead>
@@ -42,7 +40,7 @@
                                         <th class="text-center">Gender</th>
                                         <th class="text-center">Tanggal Bergabung</th>
                                         <th class="text-center">Status</th>
-
+                                        <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -70,18 +68,28 @@
                                             <a>Aktif</a>
                                             @endif
                                         </td>
+                                        <td class="text-center">
+                                            <form onsubmit="return confirm('Apakah Anda Yakin ?');"
+                                                action="{{ route('departemen.destroy', $item->id) }}" method="POST">
+                                                <a href="{{ route('departemen.edit', $item->id) }}"
+                                                    class="btn btn-sm btn-primary">EDIT</a>
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     @empty
                                     <div class="alert alert-danger">Data Pegawai belum tersedia</div>
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div style="margin-left:50%;">{{$pegawai->links()}}</div>
                         </div>
-                    </div><!-- /.card-body -->
+                        <div class="d-flex justify-content-center">{{$pegawai->links()}}</div>
+                    </div> <!-- /.card-body -->
                 </div><!-- /.card -->
             </div><!-- /.col-md-6 -->
-        </div><!-- /.row -->
-    </div><!-- /.container-fluid -->
+        </div> <!-- /.row -->
+    </div> <!-- /.container-fluid -->
 </div>
 @endsection

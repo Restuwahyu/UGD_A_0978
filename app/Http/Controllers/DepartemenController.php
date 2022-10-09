@@ -52,7 +52,7 @@ class DepartemenController extends Controller
             'nama_departemen' => $request->nama_departemen, 
             'nama_manager' => $request->nama_manager, 
             'jumlah_pegawai' => $request->jumlah_pegawai 
-        ]); 
+        ]);
         
         try{ 
             //Mengisi variabel yang akan ditampilkan pada view mail 
@@ -69,5 +69,34 @@ class DepartemenController extends Controller
             //Redirect jika gagal mengirim email 
             return redirect()->route('departemen.index')->with(['success' => 'Data Berhasil Disimpan, namun gagal mengirim email!']); 
         } 
+    }
+
+    public function edit($id)
+    {
+        $departemen = Departemen::find($id);
+        return view('departemen.edit', compact('departemen'));
+    }
+    
+    public function destroy(Departemen $deparetemen,$id)
+    {
+        $departemen = Departemen::where('id', $id)->firstorfail()->delete();
+        return redirect()->route('departemen.index')->with(['success'=>'Data Berhasil Dihapus!']);
+    }
+
+    public function update (Request $request, $id)
+    {
+        $this->validate($request, [ 
+            'nama_departemen' => 'required', 
+            'nama_manager' => 'required', 
+            'jumlah_pegawai' => 'required' 
+        ]); 
+        
+        //Fungsi Update Data ke dalam Database 
+        $departemen = Departemen::find($id);
+        $departemen->nama_departemen   = $request->nama_departemen;
+        $departemen->nama_manager = $request->nama_manager;
+        $departemen->jumlah_pegawai = $request->jumlah_pegawai;
+        $departemen->update();
+        return redirect()->route('departemen.index')->with(['success'=>'Data Berhasil Diedit!']);
     }
 }
