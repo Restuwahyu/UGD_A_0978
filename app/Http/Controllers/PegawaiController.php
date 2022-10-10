@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 /* Import Model */
 use App\Models\Pegawai;
+use App\Models\Departemen; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,13 +14,12 @@ class PegawaiController extends Controller{
     * @return void
     */
     public function index(){
-        $pegawai = Pegawai::join('departemens','pegawais.id_departemen','=','departemens.id')->paginate(5);
-                            
-            
-            //$pegawai = Pegawai::paginate(5);
-                      
-            //render view with posts
-            return view('pegawai.index', compact('pegawai'));
+        $pegawai=Pegawai::get();
+        $departemen=Departemen::get();
+        
+        $pegawai = Pegawai::latest()->paginate(5);           
+        //render view with posts
+        return view('pegawai.index', compact(['pegawai','departemen']));
     }
 
     /** 
@@ -28,7 +28,8 @@ class PegawaiController extends Controller{
     */ 
     public function create() 
     { 
-        return view('pegawai.create'); 
+        $departemen=Departemen::all();
+        return view('pegawai.create', compact('departemen')); 
     } 
     /** 
      * store 
@@ -42,11 +43,11 @@ class PegawaiController extends Controller{
         $this->validate($request, [ 
             'nomor_induk_pegawai' => 'required', 
             'nama_pegawai' => 'required|alpha-dash|max:15', 
-            'id_departemen' => 'required|id_departemen|unique:departemens',
+            'id_departemen' => 'required',
             'email' => 'required|email', 
-            'telepon' => 'required|match:[0-9]|alpha-dash|min:6|max:7', 
+            'telepon' => 'required|starts_with:08|alpha-dash|min:6|max:7', 
             'gender' => 'required', 
-            'tanggal_bergabung' => 'required|before:2022-10-9', 
+            'tanggal_bergabung' => 'required|date', 
             'status' => 'required'
         ]); 
         
@@ -61,18 +62,21 @@ class PegawaiController extends Controller{
             'tanggal_bergabung' => $request->tanggal_bergabung,
             'status' => $request->status
         ]);
+        return redirect()->route('pegawai.index')->with(['success'=> 'Data Berhasil Disimpan']);
     }
 
     public function edit($id)
     {
         $pegawai = Pegawai::find($id);
-        return view('pegawai.edit', compact('pegawai'));
+        $departemen = Departemen::all();
+        return view('pegawai.edit', compact(['pegawai','departemen']));
     }
 
     public function destroy($id)
     {
-        $pegawai = Pegawai::where('id', $id)->firstorfail()->delete();
-        return redirect()->route('pegawai.index')->with(['success' => 'Data Berhasil Dihapus']);
+        $pegawai = Pegawai::where('id', $id)->firstorfail();
+        $pegawai->delete();
+        return redirect()->route('pegawai.index')->with('success', 'Data Berhasil Dihapus!');
     }
 
     public function update (Request $request, $id)
@@ -80,11 +84,11 @@ class PegawaiController extends Controller{
         $this->validate($request, [ 
             'nomor_induk_pegawai' => 'required', 
             'nama_pegawai' => 'required|alpha-dash|max:15', 
-            'id_departemen' => 'required|id_departemen|unique:departemens',
+            'id_departemen' => 'required',
             'email' => 'required|email', 
-            'telepon' => 'required|match:[0-9]|alpha-dash|min:6|max:7', 
+            'telepon' => 'required|starts_with:08|alpha-dash|min:6|max:7', 
             'gender' => 'required', 
-            'tanggal_bergabung' => 'required|before:2022-10-9', 
+            'tanggal_bergabung' => 'required|date', 
             'status' => 'required'
         ]); 
         
@@ -99,6 +103,6 @@ class PegawaiController extends Controller{
         $pegawai->tanggal_bergabung = $request->tanggal_bergabung;
         $pegawai->status = $request->status;
         $pegawai->update();
-        return redirect()->route('pegawai.index')->with(['success' => 'Data Berhasil Diedit']);
+        return redirect()->route('pegawai.index')->with(['success' => 'Data Berhasil Diedit!']);
     }
 }

@@ -5,13 +5,13 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Departemen</h1>
+                <h1 class="m-0">Pegawai</h1>
             </div>
             <!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item">
-                        <a href="#">Departemen</a>
+                        <a href="#">Pegawai</a>
                     </li>
                     <li class="breadcrumb-item active">Index</li>
                 </ol>
@@ -32,7 +32,7 @@
                             <table class="table table-hover text-nowrap">
                                 <thead>
                                     <tr>
-                                        <th class="text-center">Nomor Induk Pegawai</th>
+                                        <th class="text-center">NIP</th>
                                         <th class="text-center">Nama Pegawai</th>
                                         <th class="text-center">Departemen</th>
                                         <th class="text-center">Email</th>
@@ -70,8 +70,8 @@
                                         </td>
                                         <td class="text-center">
                                             <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                action="{{ route('departemen.destroy', $item->id) }}" method="POST">
-                                                <a href="{{ route('departemen.edit', $item->id) }}"
+                                                action="{{ route('pegawai.destroy', $item->id) }}" method="POST">
+                                                <a href="{{ route('pegawai.edit', $item->id) }}"
                                                     class="btn btn-sm btn-primary">EDIT</a>
                                                 @csrf
                                                 @method('DELETE')
@@ -92,4 +92,9 @@
         </div> <!-- /.row -->
     </div> <!-- /.container-fluid -->
 </div>
+<script>
+@if(Session::has('success'))
+toastr.success("{{ Session::get('success')}}")
+@endif
+</script>
 @endsection
